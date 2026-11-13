@@ -1,0 +1,6 @@
+{
+  "name": "Kerala Flood Desk",
+  "description": "Non-commercial classroom demo for Kerala flood-relief supply run planning using NewsData headlines and Gemini triage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
