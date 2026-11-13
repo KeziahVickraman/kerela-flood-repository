@@ -37,8 +37,24 @@ export interface DistrictPlan {
   articleIds: string[];
 }
 
+export interface PlanAttempt {
+  query: string;
+  articleCount: number;
+  cached: boolean;
+}
+
+export interface PlanTimings {
+  queryMs: number;
+  newsMs: number;
+  triageMs: number;
+  totalMs: number;
+}
+
 export interface PlanResponse {
   query: string;
+  region?: string;
+  attempts?: PlanAttempt[];
+  timings?: PlanTimings;
   news: NewsResponse;
   plan: {
     districts: DistrictPlan[];

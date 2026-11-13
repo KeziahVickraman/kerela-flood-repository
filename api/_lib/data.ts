@@ -76,6 +76,19 @@ export interface CacheEntry {
   articles: NormalizedArticle[];
 }
 
+export interface PlanAttempt {
+  query: string;
+  articleCount: number;
+  cached: boolean;
+}
+
+export interface PlanTimings {
+  queryMs: number;
+  newsMs: number;
+  triageMs: number;
+  totalMs: number;
+}
+
 const creditTimestamps: number[] = [];
 const responseCache = new Map<string, CacheEntry>();
 

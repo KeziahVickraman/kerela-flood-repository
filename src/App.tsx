@@ -33,6 +33,7 @@ export default function App() {
   const [healthError, setHealthError] = useState(false);
 
   // Plan tab state
+  const [region, setRegion] = useState('Kerala');
   const [situation, setSituation] = useState(DEFAULT_SITUATION);
   const [planLoading, setPlanLoading] = useState(false);
   const [plan, setPlan] = useState<PlanResponse | null>(null);
@@ -42,7 +43,7 @@ export default function App() {
   const [rawParams, setRawParams] = useState<RawSearchParams>({
     q: 'Kerala flood OR landslide',
     country: 'in',
-    language: 'en',
+    language: 'en,ml',
     category: 'any',
   });
   const [rawLoading, setRawLoading] = useState(false);
@@ -93,6 +94,7 @@ export default function App() {
     setHealthLoading(true);
     try {
       const res = await fetch('/api/health', {
+        cache: 'no-store',
         headers: buildHeaders(false),
       });
       if (!res.ok) {
@@ -164,6 +166,7 @@ export default function App() {
         body: JSON.stringify({
           situation,
           country: 'in',
+          region: region.trim() || 'Kerala',
         }),
       });
 
@@ -194,9 +197,9 @@ export default function App() {
       setErrorSourceTab('plan');
     } finally {
       setPlanLoading(false);
-      void fetchHealth();
+      await fetchHealth();
     }
-  }, [buildHeaders, fetchHealth, handleApiFailure, planLoading, retryCountdown, situation]);
+  }, [buildHeaders, fetchHealth, handleApiFailure, planLoading, region, retryCountdown, situation]);
 
   const handleRawSearch = useCallback(async () => {
     if (rawLoading || retryCountdown > 0) return;
@@ -250,7 +253,7 @@ export default function App() {
       setErrorSourceTab('raw');
     } finally {
       setRawLoading(false);
-      void fetchHealth();
+      await fetchHealth();
     }
   }, [buildHeaders, fetchHealth, handleApiFailure, rawLoading, rawParams, retryCountdown]);
 
@@ -380,6 +383,11 @@ export default function App() {
               situation={situation}
               onSituationChange={(value) => {
                 setSituation(value);
+                if (planInlineError) setError(null);
+              }}
+              region={region}
+              onRegionChange={(value) => {
+                setRegion(value);
                 if (planInlineError) setError(null);
               }}
               onGenerate={() => void handleGeneratePlan()}

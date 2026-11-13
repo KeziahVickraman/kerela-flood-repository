@@ -41,3 +41,14 @@ export function isSafeHttpUrl(url: string | null | undefined): url is string {
     return false;
   }
 }
+
+export function formatLanguageCode(language: string | null | undefined): string {
+  if (!language) return 'EN';
+  const normalized = language.trim().toLowerCase();
+  if (normalized === 'english' || normalized === 'en') return 'EN';
+  if (normalized === 'malayalam' || normalized === 'ml') return 'ML';
+  if (normalized === 'hindi' || normalized === 'hi') return 'HI';
+  if (normalized === 'tamil' || normalized === 'ta') return 'TA';
+  if (normalized === 'kannada' || normalized === 'kn') return 'KN';
+  return normalized.slice(0, 2).toUpperCase();
+}

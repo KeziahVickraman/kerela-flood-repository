@@ -1,7 +1,7 @@
 import React from 'react';
 import { ExternalLink, Loader2, Search } from 'lucide-react';
 import type { NewsResponse } from '../types';
-import { formatRelativeTime, isSafeHttpUrl } from '../utils/time';
+import { formatLanguageCode, formatRelativeTime, isSafeHttpUrl } from '../utils/time';
 
 export interface RawSearchParams {
   q: string;
@@ -216,30 +216,43 @@ export function RawSearchTab({
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {news.articles.map((article, idx) => (
+              {news.articles.map((article, idx) => {
+                const langCode = formatLanguageCode(article.language);
+                return (
                 <article
                   key={`${article.id}-${idx}`}
                   className="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900"
                 >
                   <div>
-                    <h3 className="font-display text-lg font-semibold leading-snug text-slate-900 dark:text-slate-100">
-                      {isSafeHttpUrl(article.link) ? (
-                        <a
-                          href={article.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group inline-flex items-start gap-1.5 hover:text-sky-700 dark:hover:text-sky-300"
-                        >
-                          <span>{article.title}</span>
-                          <ExternalLink
-                            className="mt-1 h-4 w-4 shrink-0 text-slate-400 group-hover:text-sky-700 dark:group-hover:text-sky-300"
-                            aria-hidden="true"
-                          />
-                        </a>
-                      ) : (
-                        article.title
-                      )}
-                    </h3>
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="font-display text-lg font-semibold leading-snug text-slate-900 dark:text-slate-100">
+                        {isSafeHttpUrl(article.link) ? (
+                          <a
+                            href={article.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group inline-flex items-start gap-1.5 hover:text-sky-700 dark:hover:text-sky-300"
+                          >
+                            <span>{article.title}</span>
+                            <ExternalLink
+                              className="mt-1 h-4 w-4 shrink-0 text-slate-400 group-hover:text-sky-700 dark:group-hover:text-sky-300"
+                              aria-hidden="true"
+                            />
+                          </a>
+                        ) : (
+                          article.title
+                        )}
+                      </h3>
+                      <span
+                        className={`rounded px-2 py-0.5 font-mono text-xs font-semibold shrink-0 ${
+                          langCode === 'ML'
+                            ? 'bg-indigo-100 text-indigo-900 dark:bg-indigo-950 dark:text-indigo-200'
+                            : 'bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200'
+                        }`}
+                      >
+                        {langCode}
+                      </span>
+                    </div>
 
                     <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                       <span>
@@ -288,7 +301,8 @@ export function RawSearchTab({
                     </div>
                   )}
                 </article>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
