@@ -4,7 +4,7 @@ export const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
 export const WINDOW_MS = 15 * 60 * 1000;
 export const DAY_MS = 24 * 60 * 60 * 1000;
 export const UPSTREAM_TIMEOUT_MS = 10_000; // 10 seconds
-export const GEMINI_MODEL = 'gemini-2.5-flash';
+export const GEMINI_MODEL = 'gemini-4-hydrogen';
 
 export const KERALA_DISTRICTS = [
   'Thiruvananthapuram',
