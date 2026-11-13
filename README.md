@@ -34,6 +34,16 @@ npm run build
 NODE_ENV=production npm start
 ```
 
+## Project Structure (`/api`)
+
+All backend API routes, real domain data (Kerala's 14 districts, caveats, credit limits), and in-memory cache/rate-limit stores live under `/api` at the project root:
+
+- `api/health.ts` — `GET /api/health` health & credit status endpoint
+- `api/news.ts` — `GET /api/news` NewsData.io proxy endpoint
+- `api/plan.ts` — `POST /api/plan` Gemini query + 14-district triage endpoint
+- `api/_lib/` — Shared server data, NewsData client, Gemini helper, and error/auth utilities
+- `server.ts` — Express server mounting `/api/*` and serving Vite / `dist/` static files
+
 ## API Endpoints
 
 - `GET /api/health` — Returns key availability and current credit counters (`200/day`, `30/15min`).
